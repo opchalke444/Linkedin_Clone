@@ -60,8 +60,8 @@ graph TD
         State --> UI["Tailwind CSS (Dark Mode) + Lucide Icons"]
     end
 
-    Client -->|REST API / JSON| Router["Express.js Server (Port 5000)"]
-    Client <-->|WebSockets (Socket.IO)| SocketServer["Socket.IO Server"]
+    Client -->|"REST API / JSON"| Router["Express.js Server (Port 5000)"]
+    Client -.->|"WebSockets / Socket.IO"| SocketServer["Socket.IO Server"]
 
     subgraph "Backend Layer"
         Router --> AuthMW["JWT & Zod Validation Middleware"]

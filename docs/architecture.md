@@ -14,8 +14,8 @@ graph TD
         State --> UI["Tailwind CSS + Lucide Icons"]
     end
 
-    Client -->|HTTPS REST API / JSON| Router["Express.js Router"]
-    Client <-->|WebSocket / WSS| SocketServer["Socket.IO Server"]
+    Client -->|"HTTPS REST API / JSON"| Router["Express.js Router"]
+    Client -.->|"WebSocket / WSS"| SocketServer["Socket.IO Server"]
 
     subgraph "Backend Application Layer"
         Router --> AuthMW["Auth & Validation Middleware"]
