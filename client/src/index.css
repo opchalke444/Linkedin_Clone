@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Fira Sans', Ubuntu, Oxygen, Oxygen-Sans, Cantarell, 'Droid Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lucida Grande', Helvetica, Arial, sans-serif;
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #f4f2ee;
+    color: #191919;
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  html.dark body,
+  body.dark {
+    background-color: #1d2226;
+    color: #f3f2ef;
+  }
+}
+
+/* Custom scrollbar for modern feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f2f4;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1d2226;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c7c9cc;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #383b40;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8c8f94;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #52575d;
+}
+
+/* Focus styles matching LinkedIn */
+*:focus-visible {
+  outline: 2px solid #0a66c2;
+  outline-offset: 2px;
+}

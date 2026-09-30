@@ -1,4 +1,4 @@
-# SYNAPSE — Full-Stack Professional Networking Platform
+# 🇮🇳 LinkedIn Clone — Full-Stack Professional Networking Platform
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript)
 ![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)
@@ -10,118 +10,130 @@
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-38B2AC?logo=tailwind-css)
 ![Vitest](https://img.shields.io/badge/Tests-21%20Passed-brightgreen?logo=vitest)
 
-**Synapse** is an original, production-style professional networking web platform built from scratch. Designed as a premier first-year college capstone project, Synapse pairs industry-standard full-stack architecture with clean, explainable code and three original algorithms ready for viva defense.
+An authentic, production-grade full-stack **LinkedIn Clone** featuring a true-to-spec LinkedIn interface, built-in **Day & Night Mode**, real-time messaging, post interactions, network discovery, job matching algorithms, and pre-seeded with **21 Indian Tech Industry Personas**.
 
 ---
 
-## 🚀 Key Highlights & Three Original Features
+## ✨ Key Features & Capabilities
 
-### 1. 📊 Profile Completeness Engine
-- Real-time **Profile Strength %** meter analyzing 7 weighted criteria (Avatar, Headline, About, Location/Industry, Experience, Education, and Skills).
-- Dynamic checklist providing one-click shortcuts to achieve **100% All-Star** status.
+### 1. 🌓 Day / Night Mode (Complete Theme System)
+- **Persistent Theme Engine**: Smoothly transitions between LinkedIn Light (`#f3f2ef` canvas / `#0a66c2` primary) and LinkedIn Dark (`#1d2226` canvas / `#23272c` cards / `#383b40` borders / `#70b5f9` accent).
+- **Universal Toggle Controls**: Accessible anywhere via desktop top navbar, mobile drawer, landing page header, auth pages, and dedicated account display settings.
+- **LocalStorage Sync**: Remembers user preference across sessions and respects system preference by default.
 
-### 2. 🧠 Skill-Based Network Discovery
+### 2. 📰 Authentic 3-Column LinkedIn Feed
+- **Create Post Modal**: Rich post creator supporting text, image URLs, media preview, and visibility settings.
+- **Micro-Animated Reactions**: Floating hover reaction bar with 5 LinkedIn reactions (👍 Like, 👏 Celebrate, 🤝 Support, ❤️ Love, 💡 Insightful).
+- **Nested Comment Threads**: Real-time comments with reply counters, author profile avatars, and delete authorization.
+- **Smart Feed Ranking**: Content-aware algorithm sorting posts by recency, connection degree, and engagement weight.
+
+### 3. 💬 Real-Time Socket.IO Messaging
+- Instant 1-on-1 direct messaging between connections with zero page refresh.
+- Real-time online/offline presence indicators.
+- Live typing status ("typing...") and persistent conversation history in PostgreSQL.
+
+### 4. 🧠 Skill-Based Network Discovery
 - Discovers "People You May Know" using the **Jaccard Similarity Index** over technical skills:
   $$\text{Similarity}(A, B) = \frac{|S_A \cap S_B|}{|S_A \cup S_B|}$$
-- Highlights shared skills pills (e.g. `React`, `Node.js`, `Docker`) and match percentages with instant connection requests.
+- Highlights mutual skills pills (e.g., `React`, `TypeScript`, `Kafka`, `Go`, `Kubernetes`) and mutual connection counts with instant connection requests (`PENDING` / `ACCEPTED`).
 
-### 3. 🎯 Professional Opportunity Matching Engine
-- Matches students and professionals to internships and tech jobs using **Rule-Based Skill Overlap**:
+### 5. 🎯 Opportunity & Job Matching Engine
+- Matches professionals to tech jobs across Bengaluru, Mumbai, Hyderabad, Pune, and Delhi NCR using **Rule-Based Skill Overlap**:
   $$\text{Match} = \min\left(100, \left\lfloor \frac{|S_{\text{user}} \cap R_{\text{opportunity}}|}{|R_{\text{opportunity}}|} \times 100 \right\rfloor \right)$$
-- Visualizes **Matching Skills** (green) vs **Skills to Acquire** (dashed outline) with direct profile application.
+- Displays matching skills (green) vs skills to acquire (dashed outline) with salary ranges in ₹ LPA and one-click "Easy Apply".
+
+### 6. 👤 Comprehensive Member Profiles
+- Banner image, profile photo, headline, current position, location, industry, and about summary.
+- Work experience timelines with company, role, dates, and descriptions.
+- Education records with degrees and fields of study.
+- Technical skills with endorsement counters and modal management.
 
 ---
 
-## 📐 System Architecture
-
-Synapse strictly separates concerns through a layered RESTful and real-time WebSocket architecture:
+## 📐 Architecture & Technology Stack
 
 ```mermaid
 graph TD
-    Client["React + TypeScript SPA (Vite)"]
+    Client["React 18 + Vite (Port 5173)"]
     subgraph "Frontend Layer"
-        Client --> State["TanStack Query + React Context"]
-        State --> UI["Tailwind CSS + Lucide Icons"]
+        Client --> State["React Context (Auth, Theme, Socket, Toast)"]
+        State --> UI["Tailwind CSS (Dark Mode) + Lucide Icons"]
     end
 
-    Client -->|HTTPS REST API / JSON| Router["Express.js Router"]
-    Client <-->|WebSocket / WSS| SocketServer["Socket.IO Server"]
+    Client -->|REST API / JSON| Router["Express.js Server (Port 5000)"]
+    Client <-->|WebSockets (Socket.IO)| SocketServer["Socket.IO Server"]
 
     subgraph "Backend Layer"
-        Router --> AuthMW["Auth & Validation Middleware"]
-        AuthMW --> Controllers["Controllers (HTTP Request/Response)"]
-        Controllers --> Services["Domain Services (Business Logic)"]
+        Router --> AuthMW["JWT & Zod Validation Middleware"]
+        AuthMW --> Controllers["Controllers (HTTP Handlers)"]
+        Controllers --> Services["Services (Business Logic & Jaccard Engine)"]
         SocketServer --> Services
     end
 
-    subgraph "Data & Persistence Layer"
+    subgraph "Database & Storage Layer"
         Services --> Prisma["Prisma ORM Client"]
-        Prisma --> Postgres[("PostgreSQL Relational DB (Port 5433)")]
+        Prisma --> Postgres[("PostgreSQL 18 Database (Port 5433)")]
     end
 ```
 
----
-
-## 🛠️ Technology Stack
-
-| Layer | Technologies | Rationale |
+| Layer | Technologies | Role & Highlights |
 | :--- | :--- | :--- |
-| **Frontend** | React 18, Vite, TypeScript, Tailwind CSS, TanStack Query, React Router, Lucide | High-performance SPA with client-side caching and responsive styling |
-| **Backend** | Node.js, Express.js, TypeScript | Non-blocking event loop, clean layered architecture |
-| **Database** | PostgreSQL 18, Prisma ORM | Strongly typed relational schema, ACID transactions, foreign key cascades |
-| **Real-Time** | Socket.IO | Persistent messaging, live presence, and instant notification pushes |
-| **Security** | JWT in HTTP-Only Cookies, Argon2/Bcrypt, Zod | XSS immunity, salt-hashed passwords, and strict schema validation |
-| **Docs & Tests** | Swagger / OpenAPI 3.0, Vitest, Supertest | Interactive API explorer and 21 automated integration tests |
+| **Frontend** | React 18, Vite 6, TypeScript, Tailwind CSS, Lucide | LinkedIn UI, Day/Night toggle, client router |
+| **Backend** | Node.js 20+, Express.js 4.21, TypeScript | Layered clean architecture, RESTful API |
+| **Database** | PostgreSQL 18, Prisma ORM 6.4 | Embedded zero-config runner on port 5433 |
+| **Real-Time** | Socket.IO 4.8 | Live chat, typing status, presence, notification dispatch |
+| **Security** | JWT, bcryptjs, Zod validation | Strict input sanitization and password hashing |
+| **Testing** | Vitest 3.0, Supertest | 21 automated integration tests passing |
 
 ---
 
 ## 🏁 Quickstart Guide
 
 ### 1. Prerequisites
-- Node.js `v18.x` or `v20.x+`
-- npm `v9.x+`
+- **Node.js** `v18.x` or `v20.x+`
+- **npm** `v9.x+`
 
 ### 2. Clone & Install
 ```bash
-# Clone the repository
 git clone https://github.com/yourusername/Linkedin_Clone.git
 cd Linkedin_Clone
 
-# Install dependencies for root, client, and server
+# Install root, client, and server dependencies
 npm run install:all
 ```
 
-### 3. Database Initialization & Seeding
-Includes an embedded PostgreSQL runner that boots automatically on port `5433`. No manual PostgreSQL installation or Docker required!
+### 3. Initialize & Seed Database (One Command)
+LinkedIn Clone embeds a self-managed PostgreSQL server on port `5433`. No external PostgreSQL install or Docker required!
 ```bash
-# Initialize database, run migrations, and seed demo accounts
 npm run db:setup
 ```
-*This script starts PostgreSQL, runs Prisma migrations, and seeds 21 realistic Indian tech professionals, 77 connections, 19 posts with reactions/comments, 5 groups, 6 job opportunities, and real-time chat histories.*
+*This command starts embedded PostgreSQL, applies Prisma schema, and populates 21 Indian tech profiles, 77 connections, 19 posts, 5 groups, 6 job listings, and message threads.*
 
-### 4. Start the Application
-Run both backend API and frontend client with a single command:
+### 4. Start Full-Stack Application
 ```bash
 npm run dev
 ```
-- **Web Application**: `http://localhost:5173`
-- **API Server**: `http://localhost:5000`
-- **Interactive Swagger Docs**: `http://localhost:5000/api-docs`
+Both services will boot concurrently:
+- 💻 **Frontend Web App**: [http://localhost:5173](http://localhost:5173)
+- ⚡ **Backend API Server**: [http://localhost:5000](http://localhost:5000)
+- 📚 **Swagger API Docs**: [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
 
 ---
 
-## 👥 Demo Test Accounts
+## 👥 Demo Test Personas
 
-All demo accounts share the same password: **`Password123!`**  
-See [DEMO_CREDENTIALS.md](file:///c:/Users/User/Desktop/Linkedin_Clone/DEMO_CREDENTIALS.md) for the full directory of 21 tech profiles.
+All 21 demo accounts share the password: **`Password123!`**  
+Detailed biographies and testing scenarios are documented in [DEMO_CREDENTIALS.md](file:///c:/Users/User/Desktop/Linkedin_Clone/DEMO_CREDENTIALS.md).
 
-| Email | Password | Persona & Focus |
-| :--- | :--- | :--- |
-| `aarav.sharma@example.com` | `Password123!` | Principal Architect at Swiggy (Bengaluru) · Go · Kafka · High Scale |
-| `priya.patel@example.com` | `Password123!` | Staff Frontend Engineer at CRED (Mumbai) · React · TypeScript · Design Systems |
-| `rohan.verma@example.com` | `Password123!` | Staff AI/ML Engineer at Microsoft IDC (Hyderabad) · Generative AI |
-| `ananya.iyer@example.com` | `Password123!` | Cloud Security Lead at PhonePe (Pune) · DevSecOps · FinTech |
-| `rhea.chawla@example.com` | `Password123!` | Director of Talent Acquisition at MakeMyTrip (Delhi NCR) · Hiring |
+| Name | Email | Company & Role | City | Focus |
+| :--- | :--- | :--- | :--- | :--- |
+| **Aarav Sharma** | `aarav.sharma@example.com` | Swiggy • Principal Software Architect | Bengaluru | High-Scale Distributed Systems, Go, Kafka |
+| **Priya Patel** | `priya.patel@example.com` | CRED • Staff Frontend Engineer | Mumbai | React, TypeScript, Design Systems |
+| **Rohan Verma** | `rohan.verma@example.com` | Microsoft IDC • Staff AI/ML Engineer | Hyderabad | Generative AI, Multilingual LLMs, Python |
+| **Ananya Iyer** | `ananya.iyer@example.com` | PhonePe • Cloud Security Lead | Pune | DevSecOps, FinTech Security, Kubernetes |
+| **Vikram Malhotra** | `vikram.malhotra@example.com` | ex-Zomato • VP of Engineering | Gurugram | Tech Leadership, Hypergrowth, Microservices |
+| **Neha Sundaram** | `neha.sundaram@example.com` | Razorpay • Director of Product | Bengaluru | FinTech, UPI AutoPay, ONDC |
+| **Rhea Chawla** | `rhea.chawla@example.com` | MakeMyTrip • Director of Talent Acquisition | New Delhi | Engineering Recruitment & Tech Hiring |
 
 ---
 
@@ -129,19 +141,17 @@ See [DEMO_CREDENTIALS.md](file:///c:/Users/User/Desktop/Linkedin_Clone/DEMO_CRED
 
 Run the full integration test suite with Vitest:
 ```bash
-cd server
 npm test
 ```
-**Test Coverage (21 Integration Tests Passing)**:
-- User registration & duplicate email handling
-- Password regex security enforcement
-- JWT authentication & HTTP-only cookies
-- Post CRUD & author authorization
-- Scalable reactions toggle logic (`LIKE`, `CELEBRATE`, `LOVE`, etc.)
-- Threaded comments & nested replies
-- Connection state transitions (`PENDING`, `ACCEPTED`, `REJECTED`)
-- Deterministic feed-ranking calculation
-- Jaccard skill similarity & opportunity matching
+
+**21 / 21 Integration Tests Passing:**
+- User registration, duplicate email rejection, and password strength validation
+- JWT generation and authenticated route guards
+- Post creation, feed retrieval, and authorization
+- Scalable reactions toggle logic (`LIKE`, `CELEBRATE`, `SUPPORT`, `LOVE`, `INSIGHTFUL`)
+- Threaded comments & replies
+- Connection requests (`PENDING`, `ACCEPTED`, `REJECTED`)
+- Jaccard skill similarity & opportunity matching calculation
 
 ---
 
@@ -156,56 +166,62 @@ Linkedin_Clone/
 │   │   │   ├── common/          # Navbar, Footer, Modal, Button, Avatar, Badges
 │   │   │   ├── feed/            # PostCard, CreatePostCard, ReactionPicker, Comments
 │   │   │   ├── messaging/       # ConversationList, ChatWindow
-│   │   │   ├── profile/         # CompletenessCard, Edit modals
-│   │   │   ├── network/         # SkillDiscoveryCard, ConnectionButton
+│   │   │   ├── profile/         # EditProfileModal, ExperienceModal, SkillModal
 │   │   │   └── opportunities/   # OpportunityCard
-│   │   ├── contexts/            # AuthContext, SocketContext, ToastContext
+│   │   ├── contexts/            # ThemeContext, AuthContext, SocketContext, ToastContext
 │   │   ├── layouts/             # AppLayout, AuthLayout
 │   │   ├── pages/               # 14 distinct functional page views
-│   │   └── types/               # Full TypeScript type definitions
+│   │   ├── types/               # TypeScript interface and enum declarations
+│   │   └── index.css            # Tailwind directives and dark mode canvas rules
+│   ├── .env.example             # Client environment template
 │   └── vite.config.ts           # Vite dev server with proxy to :5000
 │
 ├── server/                      # Express Backend API Server
 │   ├── prisma/
 │   │   ├── schema.prisma        # Normalized 19-table PostgreSQL schema
-│   │   └── seed.ts              # Rich seed script with 20 realistic profiles
+│   │   └── seed.ts              # Rich seed script with 21 Indian tech profiles
 │   ├── src/
 │   │   ├── controllers/         # Request handling & HTTP status dispatch
 │   │   ├── services/            # Business logic, Jaccard math & feed ranking
 │   │   ├── routes/              # Express API route declarations
 │   │   ├── middleware/          # Auth, Zod validation, Error handlers
 │   │   ├── socket/              # Socket.IO real-time event pipeline
+│   │   ├── db/                  # Embedded PostgreSQL launcher & setup runners
 │   │   └── __tests__/           # Vitest integration tests
+│   ├── .env.example             # Server environment template
 │   └── package.json
 │
 ├── docs/                        # Complete viva & architecture documentation
-│   ├── architecture.md          # System architecture & viva defense questions
+│   ├── architecture.md          # System architecture & viva defense guide
 │   ├── database.md              # Database ER diagram & schema reference
 │   ├── api.md                   # REST API catalog & Swagger specifications
 │   ├── features.md              # Features & mathematical formulas breakdown
 │   └── setup.md                 # Step-by-step installation guide
 │
+├── DEMO_CREDENTIALS.md          # Directory of all 21 pre-seeded accounts & scenarios
+├── package.json                 # Cross-platform root scripts (concurrent dev)
 ├── README.md                    # Project master documentation
-└── .env.example                 # Environment configuration template
+└── .env.example                 # Root environment configuration template
 ```
 
 ---
 
-## 📚 In-Depth Documentation
+## 📜 Available NPM Scripts
 
-For thorough examination and viva presentation, consult the dedicated guides:
-- [System Architecture & Viva Defense Guide](docs/architecture.md)
-- [PostgreSQL Database & Schema Reference](docs/database.md)
-- [REST API Catalog & Swagger Specs](docs/api.md)
-- [Features Specification & Algorithms](docs/features.md)
-- [Detailed Setup Guide](docs/setup.md)
+| Command | Action |
+| :--- | :--- |
+| `npm run install:all` | Installs all dependencies across root, server, and client |
+| `npm run db:setup` | Starts embedded PostgreSQL, pushes schema, and seeds test data |
+| `npm run dev` | Runs both backend API and frontend Vite dev server concurrently |
+| `npm run build` | Compiles TypeScript and bundles both backend and frontend |
+| `npm test` | Runs the full backend integration test suite with Vitest |
 
 ---
 
 ## 🛡️ Security Best Practices
 
-1. **No Plaintext Passwords**: Salted bcrypt hashing with 12 rounds.
-2. **XSS Protection**: Sensitive tokens stored in secure, `HTTP-only` cookies inaccessible to JavaScript.
-3. **SQL Injection Defense**: Prisma ORM with parameterized queries.
-4. **Input Validation**: Centralized Zod request schemas on all mutation routes.
-5. **No Secret Leaks**: Passwords and secrets are omitted from all JSON responses.
+1. **No Plaintext Passwords**: Salted bcrypt hashing with 10+ rounds.
+2. **Session Security**: JWT bearer token authentication with 7-day expiration.
+3. **SQL Injection Defense**: Prisma ORM parameterized queries with strict relational typing.
+4. **Input Validation**: Centralized Zod request schema validation on all mutation endpoints.
+5. **Privacy Controls**: Password hashes and sensitive internal fields are omitted from all JSON responses.
